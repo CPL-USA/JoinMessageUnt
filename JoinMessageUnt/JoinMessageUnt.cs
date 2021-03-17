@@ -10,12 +10,13 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+
 namespace JoinMessageUnt
 {
-    public class JoinMessageUnt : RocketPlugin
+    public class JoinMessageUnt : RocketPlugin<Configuration>
     {
         public static JoinMessageUnt Instance;
-
+        
         protected override void Load()
         {
             Instance = this;
@@ -33,12 +34,21 @@ namespace JoinMessageUnt
 
         private void onPlayerConnected(UnturnedPlayer player)
         {
-            UnturnedChat.Say(player.CharacterName + " подключился на сервер!",Color.yellow);
+            
+            if (Configuration.Instance.ShowConnectedPlayer)
+            {
+                UnturnedChat.Say(player.CharacterName + " подключился на сервер!", UnturnedChat.GetColorFromName(Configuration.Instance.PlayerConnectedCl, new Color(0, 0, 0)));
+            }
         }
+
+    
 
         private void onPlayerDisconnected(UnturnedPlayer player)
         {
-            UnturnedChat.Say(player.CharacterName + " отключился от сервера!", Color.red);
+            if (Configuration.Instance.ShowDisconnectedPlayer)
+            {
+                UnturnedChat.Say(player.CharacterName + " отключился от сервера!", UnturnedChat.GetColorFromName(Configuration.Instance.PlayerConnectedCl, new Color(0, 0, 0)));
+            }
         }
 
     }
